@@ -1,11 +1,4 @@
-module VirtualDom
-    ( Node
-    , text, node
-    , toElement, fromElement
-    , Property, property, attribute, attributeNS
-    , on, onWithOptions, Options, defaultOptions
-    , lazy, lazy2, lazy3
-    ) where
+module VirtualDom (Node, text, node, toElement, fromElement, Property, property, attribute, attributeNS, on, onWithOptions, Options, defaultOptions, lazy, lazy2, lazy3) where
 
 {-| API to the core diffing algorithm. Can serve as a foundation for libraries
 that expose more helper functions for HTML or SVG.
@@ -34,7 +27,8 @@ import Native.VirtualDom
 
 {-| An immutable chunk of data representing a DOM node. This can be HTML or SVG.
 -}
-type Node = Node
+type Node
+  = Node
 
 
 {-| Create a DOM node with a tag name, a list of HTML properties that can
@@ -55,7 +49,7 @@ a list of child nodes.
 -}
 node : String -> List Property -> List Node -> Node
 node =
-    Native.VirtualDom.node
+  Native.VirtualDom.node
 
 
 {-| Just put plain text in the DOM. It will escape the string so that it appears
@@ -65,7 +59,7 @@ exactly as you specify.
 -}
 text : String -> Node
 text =
-    Native.VirtualDom.text
+  Native.VirtualDom.text
 
 
 {-| Embed an `Node` value in Elm's rendering system. Like any other `Element`,
@@ -74,17 +68,19 @@ made more convenient in the future.
 -}
 toElement : Int -> Int -> Node -> Element
 toElement =
-    Native.VirtualDom.toElement
+  Native.VirtualDom.toElement
 
 
 {-| Embed an `Element` as `Html`.
 -}
 fromElement : Element -> Node
 fromElement =
-    Native.VirtualDom.fromElement
+  Native.VirtualDom.fromElement
+
 
 
 -- PROPERTIES
+
 
 {-| When using HTML and JS, there are two ways to specify parts of a DOM node.
 
@@ -102,7 +98,8 @@ corresponding property. Sometimes changing an attribute does not change the
 underlying property. For example, as of this writing, the `webkit-playsinline`
 attribute can be used in HTML, but there is no corresponding property!
 -}
-type Property = Property
+type Property
+  = Property
 
 
 {-| Create arbitrary *properties*.
@@ -120,7 +117,7 @@ would be in JavaScript, not `class` as it would appear in HTML.
 -}
 property : String -> Json.Value -> Property
 property =
-    Native.VirtualDom.property
+  Native.VirtualDom.property
 
 
 {-| Create arbitrary HTML *attributes*. Maps onto JavaScript’s `setAttribute`
@@ -137,7 +134,7 @@ be in HTML, not `className` as it would appear in JS.
 -}
 attribute : String -> String -> Property
 attribute =
-    Native.VirtualDom.attribute
+  Native.VirtualDom.attribute
 
 
 {-| Would you believe that there is another way to do this?! This corresponds
@@ -147,10 +144,12 @@ attributes. This is used in some SVG stuff at least.
 -}
 attributeNS : String -> String -> String -> Property
 attributeNS =
-    Native.VirtualDom.attributeNS
+  Native.VirtualDom.attributeNS
+
 
 
 -- EVENTS
+
 
 {-| Create a custom event listener.
 
@@ -168,14 +167,14 @@ So in our example, we will send `()` to the given `address`.
 -}
 on : String -> Json.Decoder a -> (a -> Signal.Message) -> Property
 on eventName decoder toMessage =
-    Native.VirtualDom.on eventName defaultOptions decoder toMessage
+  Native.VirtualDom.on eventName defaultOptions decoder toMessage
 
 
 {-| Same as `on` but you can set a few options.
 -}
 onWithOptions : String -> Options -> Json.Decoder a -> (a -> Signal.Message) -> Property
 onWithOptions =
-    Native.VirtualDom.on
+  Native.VirtualDom.on
 
 
 {-| Options for an event listener. If `stopPropagation` is true, it means the
@@ -185,9 +184,9 @@ to the event is prevented. For example, this is used with touch events when you
 want to treat them as gestures of your own, not as scrolls.
 -}
 type alias Options =
-    { stopPropagation : Bool
-    , preventDefault : Bool
-    }
+  { stopPropagation : Bool
+  , preventDefault : Bool
+  }
 
 
 {-| Everything is `False` by default.
@@ -199,12 +198,14 @@ type alias Options =
 -}
 defaultOptions : Options
 defaultOptions =
-    { stopPropagation = False
-    , preventDefault = False
-    }
+  { stopPropagation = False
+  , preventDefault = False
+  }
+
 
 
 -- OPTIMIZATION
+
 
 {-| A performance optimization that delays the building of virtual DOM nodes.
 
@@ -216,18 +217,18 @@ we know if the input to `view` is the same, the output must be the same!
 -}
 lazy : (a -> Node) -> a -> Node
 lazy =
-    Native.VirtualDom.lazy
+  Native.VirtualDom.lazy
 
 
 {-| Same as `lazy` but checks on two arguments.
 -}
 lazy2 : (a -> b -> Node) -> a -> b -> Node
 lazy2 =
-    Native.VirtualDom.lazy2
+  Native.VirtualDom.lazy2
 
 
 {-| Same as `lazy` but checks on three arguments.
 -}
 lazy3 : (a -> b -> c -> Node) -> a -> b -> c -> Node
 lazy3 =
-    Native.VirtualDom.lazy3
+  Native.VirtualDom.lazy3
