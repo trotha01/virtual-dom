@@ -1,4 +1,4 @@
-module VirtualDom (Node, text, node, toElement, fromElement, Property, property, attribute, attributeNS, on, onWithOptions, Options, defaultOptions, lazy, lazy2, lazy3) where
+module VirtualDom (Node, text, node, toElement, fromElement, Property, Property(..), property, attribute, attributeNS, on, onWithOptions, Options, defaultOptions, lazy, lazy2, lazy3) where
 
 {-| API to the core diffing algorithm. Can serve as a foundation for libraries
 that expose more helper functions for HTML or SVG.
@@ -99,7 +99,7 @@ underlying property. For example, as of this writing, the `webkit-playsinline`
 attribute can be used in HTML, but there is no corresponding property!
 -}
 type Property
-  = Property
+  = Property String Json.Value
 
 
 {-| Create arbitrary *properties*.
