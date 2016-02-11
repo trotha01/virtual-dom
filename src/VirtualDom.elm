@@ -2,7 +2,7 @@ module VirtualDom
     ( Node
     , text, node
     , toElement, fromElement
-    , Property, property, attribute, attributeNS
+    , Property, Property(..), property, attribute, attributeNS
     , on, onWithOptions, Options, defaultOptions
     , lazy, lazy2, lazy3
     ) where
@@ -102,7 +102,8 @@ corresponding property. Sometimes changing an attribute does not change the
 underlying property. For example, as of this writing, the `webkit-playsinline`
 attribute can be used in HTML, but there is no corresponding property!
 -}
-type Property = Property
+type Property
+    = Property String Json.Value
 
 
 {-| Create arbitrary *properties*.
